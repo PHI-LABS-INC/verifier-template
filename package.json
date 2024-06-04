@@ -1,0 +1,29 @@
+{
+  "repository": "https://github.com/vercel/examples.git",
+  "author": "zak3939",
+  "license": "MIT",
+  "licenseUrl": "http://www.opensource.org/licenses/mit-license.php",
+  "bugs": {
+    "url": "https://github.com/phaserjs/template-react-ts/issues"
+  },
+  "scripts": {
+    "test": "jest",
+    "test:watch": "jest --watch"
+  },
+  "private": true,
+  "devDependencies": {
+    "@ethereumjs/util": "^9.0.3",
+    "@metamask/eth-sig-util": "^7.0.2",
+    "@types/jest": "^29.5.12",
+    "@types/node": "^20.14.1",
+    "jest": "^29.7.0",
+    "ts-jest": "^29.1.4",
+    "typescript": "^5.4.5"
+  },
+  "dependencies": {
+    "@vercel/node": "^3.1.6",
+    "axios": "^1.7.2",
+    "dotenv": "^16.4.5",
+    "viem": "^2.13.3"
+  }
+}
