@@ -8,10 +8,10 @@ const privateKey = Buffer.from('4af1bceebf7f3634ec3cff8a2c38e51178d5d4ce585c52d6
 
 describe('create_signature', function () {
   it('should sign a message correctly', async function () {
-    const valueArray: [`0x${string}`, boolean, bigint] = [
+    const valueArray: [`0x${string}`, boolean, string] = [
       '0x1234567890123456789012345678901234567890',
       true,
-      BigInt(123456789332),
+      '123456789332',
     ];
 
     const signature = await create_signature(valueArray);
@@ -19,14 +19,14 @@ describe('create_signature', function () {
   });
 
   it('should recover the public key from a signature', async () => {
-    const valueArray: [`0x${string}`, boolean, bigint] = [
+    const valueArray: [`0x${string}`, boolean, string] = [
       '0x1234567890123456789012345678901234567890',
       true,
-      BigInt(123456789),
+      '123456789',
     ];
 
     const signature = await create_signature(valueArray);
-    const typesArray = 'address, bool, uint';
+    const typesArray = 'address, bool, string';
     const publicKey = bytesToHex(privateToPublic(privateKey));
 
     const hashBuff = keccak256(toBytes(encodeAbiParameters(parseAbiParameters(typesArray), valueArray)));

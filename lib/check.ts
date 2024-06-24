@@ -2,7 +2,7 @@ import { http, createPublicClient } from 'viem';
 import { credentialConfig } from './credentials';
 import { getTransactions } from './transactionUtils';
 
-export async function check_credential(address: string, id: number): Promise<[boolean, number]> {
+export async function check_credential(address: string, id: number): Promise<[boolean, string]> {
   // Get the credential configuration based on the provided id
   const config = credentialConfig[id];
   // Convert the address to lowercase for consistency
@@ -25,14 +25,15 @@ export async function check_credential(address: string, id: number): Promise<[bo
 
     if (config.credentialType === 'numeric') {
       // If the credential type is numeric, return true and the contract call result
-      return [true, contractCallResult];
+      if (contractCallResult === undefined) {
+        throw new Error('Numeric credential returned undefined');
+      }
+      return [true, contractCallResult.toString()];
+    } else if (config.credentialType == 'eligible') {
+      // If the credential type is eligible, return the ""
+      return [config.contractCallCondition(contractCallResult), ''];
     } else {
-      // If the credential type is not numeric, return the result of the contract call condition
-      // and a numeric representation of the condition (1 for true, 0 for false)
-      return [
-        config.contractCallCondition(contractCallResult),
-        config.contractCallCondition(contractCallResult) ? 1 : 0,
-      ];
+      return [false, ''];
     }
   } else if (config.apiChoice === 'etherscan' || config.apiChoice === 'alchemy') {
     // Get the transactions using the specified API choice, API key or URL, address,
@@ -51,14 +52,18 @@ export async function check_credential(address: string, id: number): Promise<[bo
 
     if (config.credentialType === 'numeric') {
       // If the credential type is numeric, return true and the result of the transaction count condition
-      return [true, config.transactionCountCondition(txs)];
-    } else {
-      // If the credential type is not numeric, return the result of the transaction condition
-      // and a numeric representation of the condition (1 for true, 0 for false)
-      return [config.transactionCondition(txs), config.transactionCondition(txs) ? 1 : 0];
+      const numericResult = config.transactionCountCondition(txs);
+      if (numericResult === undefined) {
+        throw new Error('Numeric credential returned undefined');
+      }
+      return [true, numericResult.toString()];
+    } else if (config.credentialType === 'eligible') {
+      // If the credential type is eligible, return the result of the transaction condition
+      return [config.transactionCondition(txs), ''];
     }
   } else {
     // Throw an error if the API choice is invalid
     throw new Error('Invalid API choice');
   }
+  return [false, ''];
 }
