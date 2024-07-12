@@ -1,6 +1,7 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { check_cred } from '../lib/check';
 import { create_signature } from '../lib/signature';
+import { toHex } from 'viem';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   const { address } = req.query;
@@ -22,7 +23,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   }
 
   if (check_result) {
-    const signature = await create_signature([address as `0x${string}`, check_result, data]);
+    const signature = await create_signature([address as `0x${string}`, check_result, toHex(data, { size: 32 })]);
     console.log(`Signature: ${signature}`);
     return res.status(200).json({ result: check_result, data, signature });
   } else {
