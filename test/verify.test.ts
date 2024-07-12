@@ -1,6 +1,6 @@
-import { check_credential } from '../lib/check';
+import { check_cred } from '../lib/check';
 import { createPublicClient, http } from 'viem';
-import { credentialConfig } from '../lib/credentials';
+import { credConfig } from '../lib/creds';
 
 jest.mock('viem', () => ({
   createPublicClient: jest.fn().mockReturnValue({
@@ -14,7 +14,7 @@ describe('verify', () => {
     jest.clearAllMocks();
   });
 
-  it('credential:0 should return correct result', async () => {
+  it('cred:0 should return correct result', async () => {
     const address = '0x5037e7747fAa78fc0ECF8DFC526DcD19f73076ce';
     const id = 0;
     const expectedData = '';
@@ -24,13 +24,13 @@ describe('verify', () => {
       readContract: mockReadContract,
     });
 
-    const [result, data] = await check_credential(address, id);
+    const [result, data] = await check_cred(address, id);
 
     expect(result).toBe(true);
     expect(data).toBe(expectedData);
   });
 
-  it('credential:0 should return false result', async () => {
+  it('cred:0 should return false result', async () => {
     const address = '0xb7Caa0ed757bbFaA208342752C9B1c541e36a4b9';
     const id = 0;
     const expectedData = '';
@@ -40,7 +40,7 @@ describe('verify', () => {
       readContract: mockReadContract,
     });
 
-    const [result, data] = await check_credential(address, id);
+    const [result, data] = await check_cred(address, id);
 
     expect(result).toBe(false);
     expect(data).toBe(expectedData);

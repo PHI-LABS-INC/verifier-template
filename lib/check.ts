@@ -1,10 +1,10 @@
 import { http, createPublicClient } from 'viem';
-import { credentialConfig } from './credentials';
+import { credConfig } from './creds';
 import { getTransactions } from './transactionUtils';
 
-export async function check_credential(address: string, id: number): Promise<[boolean, string]> {
-  // Get the credential configuration based on the provided id
-  const config = credentialConfig[id];
+export async function check_cred(address: string, id: number): Promise<[boolean, string]> {
+  // Get the cred configuration based on the provided id
+  const config = credConfig[id];
   // Convert the address to lowercase for consistency
   const check_address = address.toLowerCase();
 
@@ -23,14 +23,14 @@ export async function check_credential(address: string, id: number): Promise<[bo
       args: [check_address],
     });
 
-    if (config.credentialType === 'numeric') {
-      // If the credential type is numeric, return true and the contract call result
+    if (config.credType === 'advanced') {
+      // If the cred type is advanced, return true and the contract call result
       if (contractCallResult === undefined) {
-        throw new Error('Numeric credential returned undefined');
+        throw new Error('advanced cred returned undefined');
       }
       return [true, contractCallResult.toString()];
-    } else if (config.credentialType == 'eligible') {
-      // If the credential type is eligible, return the ""
+    } else if (config.credType == 'eligible') {
+      // If the cred type is eligible, return the ""
       return [config.contractCallCondition(contractCallResult), ''];
     } else {
       return [false, ''];
@@ -50,15 +50,15 @@ export async function check_credential(address: string, id: number): Promise<[bo
       config.filterFunction,
     );
 
-    if (config.credentialType === 'numeric') {
-      // If the credential type is numeric, return true and the result of the transaction count condition
-      const numericResult = config.transactionCountCondition(txs);
-      if (numericResult === undefined) {
-        throw new Error('Numeric credential returned undefined');
+    if (config.credType === 'advanced') {
+      // If the cred type is advanced, return true and the result of the transaction count condition
+      const advancedResult = config.transactionCountCondition(txs);
+      if (advancedResult === undefined) {
+        throw new Error('advanced cred returned undefined');
       }
-      return [true, numericResult.toString()];
-    } else if (config.credentialType === 'eligible') {
-      // If the credential type is eligible, return the result of the transaction condition
+      return [true, advancedResult.toString()];
+    } else if (config.credType === 'eligible') {
+      // If the cred type is eligible, return the result of the transaction condition
       return [config.transactionCondition(txs), ''];
     }
   } else {

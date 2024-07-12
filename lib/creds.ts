@@ -1,14 +1,14 @@
 import 'dotenv/config';
 import { txFilter_Any, txFilter_Standard } from './filter';
 
-// The credentialConfig object holds the configurations for various credentials.
-// Each credential is represented as an object with a unique ID.
-export const credentialConfig = {
+// The credConfig object holds the configurations for various creds.
+// Each cred is represented as an object with a unique ID.
+export const credConfig = {
   0: {
-    // Title of the credential
+    // Title of the cred
     title: 'Complete a transaction on Basechain',
-    // Type of the credential ('eligible' or 'numeric')
-    credentialType: 'eligible',
+    // Type of the cred ('eligible' or 'advanced')
+    credType: 'eligible',
     // Choice of API to use ('etherscan' or 'contractCall')
     apiChoice: 'etherscan',
     // API key or URL (retrieved from environment variables)
@@ -27,11 +27,11 @@ export const credentialConfig = {
     filterFunction: txFilter_Any,
     // Function to evaluate the condition of transactions
     transactionCondition: (txs: any[]) => txs.length > 0,
-    // This credential uses the 'etherscan' API and checks for eligibility based on the presence of transactions.
+    // This cred uses the 'etherscan' API and checks for eligibility based on the presence of transactions.
   },
   1: {
     title: 'DegenMinted',
-    credentialType: 'eligible',
+    credType: 'eligible',
     apiChoice: 'etherscan',
     apiKeyOrUrl: process.env.ETHERSCAN_API_KEY ?? '',
     contractAddress: '0x0521fa0bf785ae9759c7cb3cbe7512ebf20fbdaa',
@@ -41,11 +41,11 @@ export const credentialConfig = {
     endBlock: 'latest',
     filterFunction: txFilter_Standard,
     transactionCondition: (txs: any[]) => txs.length > 0,
-    // This credential uses the 'etherscan' API and checks for eligibility based on the presence of specific transactions.
+    // This cred uses the 'etherscan' API and checks for eligibility based on the presence of specific transactions.
   },
   2: {
     title: 'Date of your first transaction on Ethereum',
-    credentialType: 'numeric',
+    credType: 'advanced',
     apiChoice: 'etherscan',
     apiKeyOrUrl: process.env.ETHERSCAN_API_KEY ?? '',
     contractAddress: 'any',
@@ -56,11 +56,11 @@ export const credentialConfig = {
     filterFunction: txFilter_Any,
     // Function to evaluate the condition based on the count of transactions
     transactionCountCondition: (txs: any[]) => txs[0]?.blockNumber || 0,
-    // This credential uses the 'etherscan' API and returns a numeric value based on the block number of the first transaction.
+    // This cred uses the 'etherscan' API and returns a numeric value based on the block number of the first transaction.
   },
   3: {
     title: 'Holder of a wawa NFT',
-    credentialType: 'numeric',
+    credType: 'advanced',
     apiChoice: 'contractCall',
     apiKeyOrUrl: '',
     contractAddress: '0x0521fa0bf785ae9759c7cb3cbe7512ebf20fbdaa',
@@ -71,11 +71,11 @@ export const credentialConfig = {
     network: 'mainnet',
     // Function to evaluate the condition based on the result of the contract call
     contractCallCondition: (result: number) => result > 0,
-    // This credential uses the 'contractCall' API and returns a numeric value based on the result of the 'balanceOf' function call.
+    // This cred uses the 'contractCall' API and returns a numeric value based on the result of the 'balanceOf' function call.
   },
   4: {
     title: 'Has made more than 10 transactions',
-    credentialType: 'eligible',
+    credType: 'eligible',
     apiChoice: 'etherscan',
     apiKeyOrUrl: process.env.ETHERSCAN_API_KEY ?? '',
     contractAddress: 'any',
@@ -85,7 +85,7 @@ export const credentialConfig = {
     endBlock: 'latest',
     filterFunction: txFilter_Any,
     transactionCondition: (txs: any[]) => txs.length > 10,
-    // This credential uses the 'etherscan' API and checks for eligibility based on the count of transactions being greater than 10.
+    // This cred uses the 'etherscan' API and checks for eligibility based on the count of transactions being greater than 10.
   },
-  // Add other credentials and their configurations here
+  // Add other creds and their configurations here
 };
