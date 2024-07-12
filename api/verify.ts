@@ -26,6 +26,6 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     console.log(`Signature: ${signature}`);
     return res.status(200).json({ result: check_result, data, signature });
   } else {
-    return res.status(200).json({ result: check_result, data, signature: null });
+    return res.status(200).json({ result: check_result, data, signature: '' });
   }
 }
