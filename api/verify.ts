@@ -1,5 +1,5 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import { check_credential } from '../lib/check';
+import { check_cred } from '../lib/check';
 import { create_signature } from '../lib/signature';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
@@ -8,8 +8,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     throw new Error('Address is required');
   }
 
-  const [check_result, data] = await check_credential(address as string, 0);
-  console.log(`Credential check result: ${check_result}, data: ${data}`);
+  const [check_result, data] = await check_cred(address as string, 0);
+  console.log(`Cred check result: ${check_result}, data: ${data}`);
 
   // Check if data fits in bytes32
   let dataFitsInBytes32 = false;
