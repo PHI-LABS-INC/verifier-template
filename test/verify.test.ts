@@ -1,3 +1,4 @@
+import { createPublicClient } from 'viem';
 import { check_cred } from '../lib/check';
 
 jest.mock('viem', () => ({
@@ -57,6 +58,10 @@ describe('verify', () => {
     const address = '0xb7Caa0ed757bbFaA208342752C9B1c541e36a4b9';
     const id = 2;
     const expectedData = '0';
+    const mockReadContract = jest.fn().mockResolvedValue(expectedData);
+    (createPublicClient as jest.Mock).mockReturnValue({
+      readContract: mockReadContract,
+    });
     const [result, data] = await check_cred(address, id);
 
     expect(result).toBe(true);

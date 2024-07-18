@@ -15,17 +15,16 @@ export async function check_cred(address: string, id: number): Promise<[boolean,
     if (config.network === 'mainnet') {
       // If the network is mainnet, use the mainnet chain configuration
       chain = mainnet;
-      rpc = 'https://rpc.ankr.com/eth';
+      rpc = 'https://eth.llamarpc.com';
     } else {
       // Otherwise, use the specified network
       throw Error('Invalid network');
     }
     // Create a public client using the specified network and HTTP transport
     const publicClient = createPublicClient({
-      chain: mainnet,
+      chain,
       transport: http(rpc),
     });
-
     if (!publicClient) {
       console.error('Failed to create publicClient');
       throw new Error('Failed to create publicClient');
@@ -33,7 +32,7 @@ export async function check_cred(address: string, id: number): Promise<[boolean,
     // Call the contract function with the provided address
     const contractCallResult = await publicClient.readContract({
       address: config.contractAddress,
-      abi: config.abi,
+      abi: [config.abi],
       functionName: config.functionName,
       args: [check_address],
     });
