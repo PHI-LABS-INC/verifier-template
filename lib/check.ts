@@ -32,7 +32,7 @@ export async function check_cred(address: string, id: number): Promise<[boolean,
     // Call the contract function with the provided address
     const contractCallResult = await publicClient.readContract({
       address: config.contractAddress,
-      abi: [config.abi],
+      abi: config.abi,
       functionName: config.functionName,
       args: [check_address],
     });

@@ -67,7 +67,25 @@ export const credConfig = {
     // Name of the contract function to call
     functionName: 'balanceOf',
     // ABI (function signature) of the contract
-    abi: ['function balanceOf(address) public view returns (uint256)'],
+    abi: [
+      {
+        name: 'balanceOf',
+        type: 'function',
+        inputs: [
+          {
+            name: 'account',
+            type: 'address',
+          },
+        ],
+        outputs: [
+          {
+            name: '',
+            type: 'uint256',
+          },
+        ],
+        stateMutability: 'view',
+      },
+    ],
     network: 'mainnet',
     // Function to evaluate the condition based on the result of the contract call
     contractCallCondition: (result: number) => result > 0,
