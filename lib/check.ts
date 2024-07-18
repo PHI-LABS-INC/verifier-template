@@ -1,6 +1,7 @@
-import { http, createPublicClient } from 'viem';
+import { http, createPublicClient, Chain } from 'viem';
 import { credConfig } from './creds';
 import { getTransactions } from './transactionUtils';
+import { mainnet } from 'viem/chains';
 
 export async function check_cred(address: string, id: number): Promise<[boolean, string]> {
   // Get the cred configuration based on the provided id
@@ -9,9 +10,17 @@ export async function check_cred(address: string, id: number): Promise<[boolean,
   const check_address = address.toLowerCase();
 
   if (config.apiChoice === 'contractCall') {
+    let chain: Chain;
+    if (config.network === 'mainnet') {
+      // If the network is mainnet, use the mainnet chain configuration
+      chain = mainnet;
+    } else {
+      // Otherwise, use the specified network
+      throw Error('Invalid network');
+    }
     // Create a public client using the specified network and HTTP transport
     const client = createPublicClient({
-      chain: config.network,
+      chain,
       transport: http(),
     });
 
