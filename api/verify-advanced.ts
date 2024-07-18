@@ -26,8 +26,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
   if (mint_eligibility) {
     const signature = await create_signature([address as Address, mint_eligibility, toHex(data, { size: 32 })]);
-    return res.status(200).json({ result: mint_eligibility, data, signature });
+    return res.status(200).json({ mint_eligibility, data, signature });
   } else {
-    return res.status(200).json({ result: mint_eligibility, data, signature: '' });
+    return res.status(200).json({ mint_eligibility, data });
   }
 }
