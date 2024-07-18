@@ -18,7 +18,7 @@ importers:
         specifier: ^16.4.5
         version: 16.4.5
       viem:
-        specifier: ^2.13.3
+        specifier: ^2.13.5
         version: 2.13.5(typescript@5.4.5)
     devDependencies:
       '@ethereumjs/util':

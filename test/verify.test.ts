@@ -28,6 +28,16 @@ describe('verify', () => {
     const expectedData = '1718909207';
 
     const [result, data] = await check_cred(address, id);
+    expect(result).toBe(true);
+    expect(data).toBe(expectedData);
+  });
+
+  it('cred:3 should return correct result', async () => {
+    const address = '0x5037e7747fAa78fc0ECF8DFC526DcD19f73076ce';
+    const id = 3;
+    const expectedData = '1718909207';
+
+    const [result, data] = await check_cred(address, id);
     console.log(result, data);
     expect(result).toBe(true);
     expect(data).toBe(expectedData);

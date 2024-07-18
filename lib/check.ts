@@ -11,21 +11,27 @@ export async function check_cred(address: string, id: number): Promise<[boolean,
 
   if (config.apiChoice === 'contractCall') {
     let chain: Chain;
+    let rpc: any;
     if (config.network === 'mainnet') {
       // If the network is mainnet, use the mainnet chain configuration
       chain = mainnet;
+      rpc = 'https://rpc.ankr.com/eth';
     } else {
       // Otherwise, use the specified network
       throw Error('Invalid network');
     }
     // Create a public client using the specified network and HTTP transport
-    const client = createPublicClient({
-      chain,
-      transport: http(),
+    const publicClient = createPublicClient({
+      chain: mainnet,
+      transport: http(rpc),
     });
 
+    if (!publicClient) {
+      console.error('Failed to create publicClient');
+      throw new Error('Failed to create publicClient');
+    }
     // Call the contract function with the provided address
-    const contractCallResult = await client.readContract({
+    const contractCallResult = await publicClient.readContract({
       address: config.contractAddress,
       abi: config.abi,
       functionName: config.functionName,
@@ -60,7 +66,6 @@ export async function check_cred(address: string, id: number): Promise<[boolean,
     );
 
     if (config.credType === 'advanced') {
-      console.log(txs);
       // If the cred type is advanced, return true and the result of the transaction count condition
       const advancedResult = config.transactionCountCondition(txs);
       if (advancedResult === undefined) {
