@@ -29,8 +29,8 @@ export async function check_cred(address: string, id: number): Promise<[boolean,
         throw new Error('advanced cred returned undefined');
       }
       return [true, contractCallResult.toString()];
-    } else if (config.credType == 'eligible') {
-      // If the cred type is eligible, return the ""
+    } else if (config.credType == 'basic') {
+      // If the cred type is basic, return the ""
       return [config.contractCallCondition(contractCallResult), ''];
     } else {
       return [false, ''];
@@ -51,14 +51,16 @@ export async function check_cred(address: string, id: number): Promise<[boolean,
     );
 
     if (config.credType === 'advanced') {
+      console.log(txs);
       // If the cred type is advanced, return true and the result of the transaction count condition
       const advancedResult = config.transactionCountCondition(txs);
       if (advancedResult === undefined) {
         throw new Error('advanced cred returned undefined');
       }
+
       return [true, advancedResult.toString()];
-    } else if (config.credType === 'eligible') {
-      // If the cred type is eligible, return the result of the transaction condition
+    } else if (config.credType === 'basic') {
+      // If the cred type is basic, return the result of the transaction condition
       return [config.transactionCondition(txs), ''];
     }
   } else {

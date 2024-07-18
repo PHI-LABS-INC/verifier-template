@@ -7,8 +7,8 @@ export const credConfig = {
   0: {
     // Title of the cred
     title: 'Complete a transaction on Basechain',
-    // Type of the cred ('eligible' or 'advanced')
-    credType: 'eligible',
+    // Type of the cred ('basic' or 'advanced')
+    credType: 'basic',
     // Choice of API to use ('etherscan' or 'contractCall')
     apiChoice: 'etherscan',
     // API key or URL (retrieved from environment variables)
@@ -31,7 +31,7 @@ export const credConfig = {
   },
   1: {
     title: 'DegenMinted',
-    credType: 'eligible',
+    credType: 'basic',
     apiChoice: 'etherscan',
     apiKeyOrUrl: process.env.ETHERSCAN_API_KEY ?? '',
     contractAddress: '0x0521fa0bf785ae9759c7cb3cbe7512ebf20fbdaa',
@@ -55,7 +55,7 @@ export const credConfig = {
     endBlock: 'latest',
     filterFunction: txFilter_Any,
     // Function to evaluate the condition based on the count of transactions
-    transactionCountCondition: (txs: any[]) => txs[0]?.blockNumber || 0,
+    transactionCountCondition: (txs: any[]) => txs[0]?.timeStamp || 0,
     // This cred uses the 'etherscan' API and returns a numeric value based on the block number of the first transaction.
   },
   3: {
@@ -75,7 +75,7 @@ export const credConfig = {
   },
   4: {
     title: 'Has made more than 10 transactions',
-    credType: 'eligible',
+    credType: 'basic',
     apiChoice: 'etherscan',
     apiKeyOrUrl: process.env.ETHERSCAN_API_KEY ?? '',
     contractAddress: 'any',

@@ -1,7 +1,7 @@
-import { encodeAbiParameters, parseAbiParameters, toBytes, Hex, hashMessage, keccak256, toHex } from 'viem';
+import { encodeAbiParameters, parseAbiParameters, toBytes, Hex, hashMessage, keccak256, toHex, Address } from 'viem';
 import { sign } from 'viem/accounts';
 
-export async function create_signature(valueArray: [`0x${string}`, boolean, `0x${string}`]): Promise<Hex> {
+export async function create_signature(valueArray: [Address, boolean, `0x${string}`]): Promise<Hex> {
   if (process.env.SIGNER_PRIVATE_KEY === undefined) {
     throw new Error('SIGNER_PRIVATE_KEY is not defined');
   } else {
