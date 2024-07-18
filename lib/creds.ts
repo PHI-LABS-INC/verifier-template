@@ -63,7 +63,7 @@ export const credConfig = {
     credType: 'advanced',
     apiChoice: 'contractCall',
     apiKeyOrUrl: '',
-    contractAddress: '0x0521fa0bf785ae9759c7cb3cbe7512ebf20fbdaa',
+    contractAddress: '0x2d9181b954736971bb74043d4782dfe93b55a9af',
     // Name of the contract function to call
     functionName: 'balanceOf',
     // ABI (function signature) of the contract
