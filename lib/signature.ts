@@ -1,16 +1,31 @@
 import { encodeAbiParameters, parseAbiParameters, toBytes, Hex, hashMessage, keccak256, toHex, Address } from 'viem';
 import { sign } from 'viem/accounts';
 
-export async function create_signature(valueArray: [Address, boolean, `0x${string}`]): Promise<Hex> {
+export async function create_signature(address: Address, mint_eligibility: boolean, data: string): Promise<Hex> {
   if (process.env.SIGNER_PRIVATE_KEY === undefined) {
     throw new Error('SIGNER_PRIVATE_KEY is not defined');
   } else {
+    // Check if data fits in bytes32
+    let dataFitsInBytes32 = false;
+    const byteLength = new TextEncoder().encode(data).length;
+    dataFitsInBytes32 = byteLength <= 32;
+    if (!dataFitsInBytes32) {
+      console.log('Data does not fit in bytes32');
+      throw new Error('Data exceeds bytes32 size limit');
+    }
+
+    const valueArray: [`0x${string}`, boolean, `0x${string}`] = [
+      address,
+      mint_eligibility,
+      toHex(data, { size: 32 }) as `0x${string}`,
+    ];
     const types = 'address, bool, bytes32';
     const encodedData = encodeAbiParameters(parseAbiParameters(types), valueArray);
     const { r, s, v } = await sign({
       hash: hashMessage({ raw: toBytes(keccak256(encodedData)) }),
       privateKey: process.env.SIGNER_PRIVATE_KEY as `0x${string}`,
     });
+
     // Sign the hash message using the private key
     // The sign function returns an object with r, s, and v components of the signature
 

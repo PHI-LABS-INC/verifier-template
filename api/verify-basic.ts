@@ -10,7 +10,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   }
 
   const [mint_eligibility, _] = await check_cred(address as string, 0);
+  console.log(`Cred check result: ${mint_eligibility});
 
-  const signature = await create_signature([address as Address, mint_eligibility, toHex(0, { size: 32 })]);
+  const signature = await create_signature(address as Address, mint_eligibility, '0');
   return res.status(200).json({ mint_eligibility, signature });
 }
