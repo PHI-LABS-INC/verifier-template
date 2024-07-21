@@ -23,6 +23,8 @@ export const credConfig = {
     startBlock: '0',
     // End block number
     endBlock: 'latest',
+    // Function to check eligibility based on the result
+    mintEligibility: (result: number) => result > 0,
     // Function to filter transactions
     filterFunction: txFilter_Any,
     // Function to evaluate the condition of transactions
@@ -53,6 +55,7 @@ export const credConfig = {
     network: 'mainnet',
     startBlock: '0',
     endBlock: 'latest',
+    mintEligibility: (result: number) => result > 0,
     filterFunction: txFilter_Any,
     // Function to evaluate the condition based on the count of transactions
     transactionCountCondition: (txs: any[]) => txs[0]?.timeStamp || 0,
@@ -87,23 +90,10 @@ export const credConfig = {
       },
     ],
     network: 'mainnet',
+    mintEligibility: (result: number) => result > 0,
     // Function to evaluate the condition based on the result of the contract call
     contractCallCondition: (result: number) => result > 0,
     // This cred uses the 'contractCall' API and returns a numeric value based on the result of the 'balanceOf' function call.
-  },
-  4: {
-    title: 'Has made more than 10 transactions',
-    credType: 'basic',
-    apiChoice: 'etherscan',
-    apiKeyOrUrl: process.env.ETHERSCAN_API_KEY ?? '',
-    contractAddress: 'any',
-    methodId: 'any',
-    network: 'mainnet',
-    startBlock: '0',
-    endBlock: 'latest',
-    filterFunction: txFilter_Any,
-    transactionCondition: (txs: any[]) => txs.length > 10,
-    // This cred uses the 'etherscan' API and checks for eligibility based on the count of transactions being greater than 10.
   },
   // Add other creds and their configurations here
 };
