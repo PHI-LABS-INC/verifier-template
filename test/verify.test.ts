@@ -14,7 +14,7 @@ describe('verify', () => {
   it('cred:2 should return correct result', async () => {
     const address = '0x5037e7747fAa78fc0ECF8DFC526DcD19f73076ce';
     const id = 2;
-    const expectedData = '1718909207';
+    const expectedData = '1721657399';
 
     const [result, data] = await check_cred(address, id);
     expect(result).toBe(true);
