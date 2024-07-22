@@ -39,11 +39,10 @@ export async function create_signature(address: Address, mint_eligibility: boole
       // This modification is equivalent to replacing s with n - s, where n is the curve order
     }
 
+    const sHex = toHex(sBigInt, { size: 32 });
     // Convert the modified s value to its hexadecimal representation
-    const rHex = r.slice(2);
-    const sHex = toHex(sBigInt).slice(2).padStart(64, '0');
 
-    const signature = `0x${rHex}${sHex}` as Hex;
+    const signature = `0x${r.slice(2)}${sHex.slice(2)}` as Hex;
     // Construct the final signature by concatenating the r and modified s values in hexadecimal format
     // The resulting signature is prefixed with "0x" and cast as a Hex type
     return signature;
