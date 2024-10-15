@@ -7,7 +7,7 @@ jest.setTimeout(30000); // Increase timeout for API calls
 describe('verify functions', () => {
   describe('balance-of-eth-base', () => {
     it('should return true for address with sufficient balance', async () => {
-      const address = '0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045'; // Replace with a known address with balance > 0.01 ETH
+      const address = '0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045'; // Replace with a known address with balance > 0.1 ETH
       const [result, balance] = await verifyBalance(address);
       expect(result).toBe(true);
       expect(parseFloat(balance)).toBeGreaterThanOrEqual(0.1);

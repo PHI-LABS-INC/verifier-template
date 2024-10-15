@@ -1,60 +1,82 @@
-# Verifier-Sample
+# Verifier Template
 
-This project consists of TypeScript code for verifying various credentials associated with Ethereum addresses.
+This project provides a template for verifying Ethereum addresses on the Base network. It includes two main verification methods: balance checking and transaction history verification.
 
-## How to Use
+## Project Structure
 
-You can choose from one of the following two methods to use this repository:
-
-### One-Click Deploy
-
-Deploy the example using [Vercel](https://vercel.com?utm_source=github&utm_medium=readme&utm_campaign=vercel-examples):
-
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/git/external?repository-url=https://github.com/PHI-LABS-INC/verifier-template&project-name=verifier&repository-name=verifier)
-
-### Clone and Deploy
-
-```bash
-git clone https://github.com/PHI-LABS-INC/verifier-template
+```
+VERIFIER-TEMPLATE
+├── api
+│   ├── balance-of-eth-base.ts
+│   ├── create-tx-base.ts
+│   └── signature.ts
+├── test
+│   └── verify.test.ts
+├── .env
+├── .env.sample
+├── .gitignore
+├── bun.lockb
+├── jest.config.js
+├── package.json
+├── README.md
+└── tsconfig.json
 ```
 
-Install the Vercel CLI:
+## Features
 
-```bash
-npm i -g vercel
+1. **Balance Verification**: Checks if an address has a minimum balance of 0.1 ETH on the Base network.
+2. **Transaction Verification**: Verifies if an address has any transactions on the Base network.
+3. **Signature Generation**: Creates a signature for verified addresses.
+
+## Setup
+
+1. Clone the repository
+2. Install dependencies:
+   ```
+   bun install
+   ```
+3. Copy `.env.sample` to `.env` and fill in the required values:
+   ```
+   BASESCAN_API_KEY=your_basescan_api_key
+   SIGNER_PRIVATE_KEY=your_private_key
+   ```
+
+## Usage
+
+### Balance Verification
+
+The `balance-of-eth-base.ts` file contains the logic for checking an address's balance on the Base network.
+
+### Transaction Verification
+
+The `create-tx-base.ts` file handles the verification of an address's transaction history using the Basescan API.
+
+### Running Tests
+
+To run the tests:
+
+```
+bun run test
 ```
 
-Then run the app at the root of the repository:
+## API Endpoints
 
-```bash
-vercel dev
-```
+The project is designed to be deployed as serverless functions. The main handler functions are:
 
-##
+- `/api/balance-of-eth-base`: Checks the balance of a given address
+- `/api/create-tx-base`: Verifies the transaction history of a given address
 
-Below is a description of each file.
+Both endpoints return a JSON response with the verification result and a signature.
 
-- check.ts
-  check.ts contains the main logic for verifying credentials based on a given address and ID. It provides the following key functions:check_credential function: Accepts an address and ID, and verifies the credential based on the corresponding credential configuration.
-  Retrieves transactions for the specified address using either the Etherscan API or Alchemy API.
-  Evaluates the transaction conditions based on the credential type (eligibility or numeric).
-  Performs contract calls and verifies credentials based on the results.
+## Environment Variables
 
-- credentials.ts
-  credentials.ts is a file that contains the configurations for various credentials. The credentialConfig object includes details such as the title, type, API choice, contract address, method ID, network, start block, end block, filter function, and transaction condition function for each credential.
+- `BASESCAN_API_KEY`: Your Basescan API key for accessing the Basescan API
+- `SIGNER_PRIVATE_KEY`: Private key used for signing the verification results
 
-- filter.ts
-  filter.ts provides functions for filtering transactions. It defines two functions:txFilter_Standard: Filters transactions based on the contract address and method ID.
-  txFilter_Any: A filter function that allows all transactions.
+## Contributing
 
-- signature.ts
-  signature.ts provides the create_signature function for creating a signature based on a given array of values. This function signs the hash message using the private key and returns the final signature.
+Contributions are welcome! Please feel free to submit a Pull Request.
 
-- transactionUtils.ts
-  transactionUtils.ts is a file that provides utility functions for retrieving transactions using either Etherscan or Alchemy. The main functions are:getTransactions: Retrieves transactions from either Etherscan or Alchemy based on the API choice.
-  getTransactionsEtherscan: Retrieves transactions using the Etherscan API.
-  getTransactionsAlchemy: Retrieves transactions using the Alchemy API.
-  getTransactionDetails: Retrieves transaction details using the transaction hash.
-  transformAlchemyTxToGeneralTx: Transforms an Alchemy transaction to the GeneralTxItem format.
+## License
 
-These files provide functionality for verifying credentials associated with Ethereum addresses and support both the Etherscan API and Alchemy API.
+MIT
