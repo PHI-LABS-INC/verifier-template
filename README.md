@@ -73,6 +73,17 @@ Both endpoints return a JSON response with the verification result and a signatu
 - `BASESCAN_API_KEY`: Your Basescan API key for accessing the Basescan API
 - `SIGNER_PRIVATE_KEY`: Private key used for signing the verification results
 
+## API Endpoints (Vercel Functions)
+
+This project is designed to be deployed as serverless functions using Vercel Functions. Each file in the api directory corresponds to a serverless function:
+
+/api/balance-of-eth-base: Checks the balance of a given address
+/api/create-tx-base: Verifies the transaction history of a given address
+
+Both endpoints return a JSON response with the verification result and a signature.
+
+Please also setup environment values to your vercel.
+
 ## Contributing
 
 Contributions are welcome! Please feel free to submit a Pull Request.
